@@ -46,3 +46,51 @@ class GrafoCurso:
                 if dfs(node):
                     return True
         return False
+
+    # Ordenação topológica separada em semestres
+    def gerar_semestres(self, max_creditos: int) -> list:
+        if self.tem_ciclo():
+            raise ValueError("O grafo possui ciclos! Remova as dependências circulares antes de gerar a grade.")
+
+        in_degree = {m: 0 for m in self.materias}
+        for u in self.adj:
+            for v in self.adj[u]:
+                in_degree[v] += 1
+
+        graus_restantes = in_degree.copy()
+        disponiveis = [m for m, deg in graus_restantes.items() if deg == 0]
+        semestres = []
+
+        while disponiveis:
+            disponiveis.sort(key=lambda x: self.materias[x]['creditos'], reverse=True)
+            
+            semestre_atual = []
+            creditos_atuais = 0
+            proxima_rodada = []
+
+            for m in disponiveis:
+                cred = self.materias[m]['creditos']
+                if cred > max_creditos:
+                    raise ValueError(f"A matéria '{m}' exige {cred} créditos, acima do limite ({max_creditos}).")
+
+                if creditos_atuais + cred <= max_creditos:
+                    semestre_atual.append(m)
+                    creditos_atuais += cred
+                else:
+                    proxima_rodada.append(m)
+
+            if not semestre_atual:
+                raise ValueError("Limite de créditos insuficiente para alocar as disciplinas restantes.")
+
+            semestres.append(semestre_atual)
+
+            novos_liberados = []
+            for m_alocada in semestre_atual:
+                for vizinho in self.adj.get(m_alocada, []):
+                    graus_restantes[vizinho] -= 1
+                    if graus_restantes[vizinho] == 0:
+                        novos_liberados.append(vizinho)
+
+            disponiveis = proxima_rodada + novos_liberados
+
+        return semestres
