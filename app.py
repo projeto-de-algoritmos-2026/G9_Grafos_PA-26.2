@@ -9,7 +9,6 @@ if "grafo" not in st.session_state:
 grafo = st.session_state.grafo
 
 st.title("🎓 Gerador de Fluxograma Acadêmico")
-st.write("Sistema para gestão e visualização de grades curriculares.")
 
 col1, col2 = st.columns(2)
 
@@ -59,3 +58,25 @@ with col2:
             st.error("Ciclo detectado! Há pré-requisitos circulares na grade.")
         else:
             st.success("Grafo Válido! É um Grafo Acíclico Direcionado (DAG).")
+
+st.divider()
+
+st.subheader("3. Gerar Organização Semestral")
+
+max_cred = st.slider("Selecione o limite máximo de créditos por semestre:", min_value=2, max_value=40, value=20)
+
+if st.button("Organizar por Semestres"):
+    if not grafo.materias:
+        st.warning("Cadastre disciplinas antes de gerar a distribuição.")
+    else:
+        try:
+            semestres = grafo.gerar_semestres(max_cred)
+            st.success(f"Grade distribuída com sucesso em {len(semestres)} semestres!")
+            
+            for i, sem in enumerate(semestres):
+                total_cred = sum(grafo.materias[m]['creditos'] for m in sem)
+                mats_fmt = ", ".join([f"{m} ({grafo.materias[m]['nome']})" for m in sem])
+                st.write(f"**{i+1}º Semestre** ({total_cred} créditos): {mats_fmt}")
+                
+        except Exception as e:
+            st.error(f"Erro no processamento: {str(e)}")
