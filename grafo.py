@@ -94,3 +94,33 @@ class GrafoCurso:
             disponiveis = proxima_rodada + novos_liberados
 
         return semestres
+        
+    def exportar_dot(self, semestres: list) -> str:
+        lines = [
+            'digraph Fluxograma {',
+            '  rankdir=LR;',
+            '  node [shape=box, style="filled,rounded", fontname="Arial"];',
+            '  edge [color="#4A5568", penwidth=1.5];'
+        ]
+
+        for idx, semestre in enumerate(semestres):
+            lines.append(f'  subgraph cluster_{idx} {{')
+            lines.append(f'    label="Semestre {idx + 1}";')
+            lines.append('    style="filled,dashed";')
+            lines.append('    color="#CBD5E0";')
+            lines.append('    fillcolor="#F7FAFC";')
+
+            for m in semestre:
+                nome = self.materias[m]['nome']
+                cred = self.materias[m]['creditos']
+                label = f"{m}\\n{nome}\\n({cred} cred)"
+                lines.append(f'    "{m}" [label="{label}", fillcolor="#EBF8FF", color="#3182CE"];')
+
+            lines.append('  }')
+
+        for u in self.adj:
+            for v in self.adj[u]:
+                lines.append(f'  "{u}" -> "{v}";')
+
+        lines.append('}')
+        return "\n".join(lines)
