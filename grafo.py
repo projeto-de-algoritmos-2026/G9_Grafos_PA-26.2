@@ -1,4 +1,6 @@
-class GrafoCurso:
+import textwrap
+
+class GrafoCurso:   
     def __init__(self):
         self.materias = {}
         self.adj = {}
@@ -99,28 +101,68 @@ class GrafoCurso:
         lines = [
             'digraph Fluxograma {',
             '  rankdir=LR;',
-            '  node [shape=box, style="filled,rounded", fontname="Arial"];',
-            '  edge [color="#4A5568", penwidth=1.5];'
+            '  newrank=true;',
+            '  bgcolor="transparent";',
+            '  compound=true;',
+            '  nodesep=0.28;',
+            '  ranksep=0.9;',
+            '  pad=0.35;',
+            '  margin=0.25;',
+            '  node [shape=box, style="filled,rounded", fontname="Arial Bold", fontsize=10, fixedsize=true, width=1.4, height=0.45, fillcolor="#2D3748", color="#63B3ED", fontcolor="#F7FAFC", penwidth=1.2];',
+            '  edge [color="#90CDF4", penwidth=1.5, arrowsize=0.8];',
+            '  ordering=out;'
         ]
 
+        primeiros = []
+
         for idx, semestre in enumerate(semestres):
+            if not semestre:
+                continue
+
+            primeiro = semestre[0]
+            primeiros.append(primeiro)
+
             lines.append(f'  subgraph cluster_{idx} {{')
-            lines.append(f'    label="Semestre {idx + 1}";')
-            lines.append('    style="filled,dashed";')
-            lines.append('    color="#CBD5E0";')
-            lines.append('    fillcolor="#F7FAFC";')
+            lines.append(f'    label="{idx + 1}º Semestre";')
+            lines.append('    fontname="Arial Bold";')
+            lines.append('    fontsize=11;')
+            lines.append('    fontcolor="#E2E8F0";')
+            lines.append('    style="filled,rounded,dashed";')
+            lines.append('    color="#4A5568";')
+            lines.append('    fillcolor="#1A202C";')
+            lines.append('    margin="0.35,0.45";')
 
             for m in semestre:
-                nome = self.materias[m]['nome']
-                cred = self.materias[m]['creditos']
-                label = f"{m}\\n{nome}\\n({cred} cred)"
-                lines.append(f'    "{m}" [label="{label}", fillcolor="#EBF8FF", color="#3182CE"];')
+                lines.append(f'    "{m}" [label="{m}"];')
+
+            nodes_str = '; '.join(f'"{m}"' for m in semestre)
+            lines.append(f'    {{ rank=same; {nodes_str}; }}')
+
+            for i in range(len(semestre) - 1):
+                lines.append(
+                    f'    "{semestre[i]}" -> "{semestre[i + 1]}" '
+                    '[style=invis, weight=100, constraint=false];'
+                )
 
             lines.append('  }')
 
+        if len(primeiros) > 1:
+            for i in range(len(primeiros) - 1):
+                lines.append(f'  "{primeiros[i]}" -> "{primeiros[i + 1]}" [style=invis, weight=100];')
+
         for u in self.adj:
             for v in self.adj[u]:
-                lines.append(f'  "{u}" -> "{v}";')
+                lines.append(f'  "{u}" -> "{v}" [weight=1];')
 
         lines.append('}')
         return "\n".join(lines)
+
+
+    def para_dict(self) -> dict:
+        return {"materias": self.materias, "adj": self.adj}
+
+    def carregar_dict(self, dados: dict):
+        if "materias" not in dados or "adj" not in dados:
+            raise ValueError("Arquivo JSON inválido para a estrutura do curso.")
+        self.materias = dados.get("materias", {})
+        self.adj = dados.get("adj", {})
