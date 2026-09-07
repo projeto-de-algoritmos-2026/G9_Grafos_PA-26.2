@@ -1,5 +1,5 @@
-# Grupo 9 - 26.2 - Grafos
 # Fluxogramas personalizados
+## Grupo 9 - 26.2 - Grafos
 
 ## Alunos
 |Matrícula | Aluno |
@@ -12,17 +12,22 @@
 
 Este projeto consiste na criação de fluxogramas personalizados. O usuário pode cadastrar disciplinas e adicionar pré-requisitos, representados por arestas direcionadas. Através do grafo direcionado acíclico gerado, o programa deve gerar um fluxograma através de ordenação topólogica, que pode ser modificado em função de créditos máximos desejados. O projeto possuirá uma interface gráfica.
 
-## Funcionalidades
+**Vídeo da execução:**
 
-* Cadastro de matérias (código, nome e créditos)
-* Listagem das matérias já cadastradas na sessão atual
+-
 
-## Pré requisitos
+## Screenshots
+
+-
+-
+-
+
+## Instalação
 
 * Python 3.9 ou superior instalado
 * Git instalado
 
-## Como executar
+### Como executar
 
 ### 1. Clonar o repositório
 
@@ -61,18 +66,36 @@ streamlit run app.py
 
 Depois disso, o Streamlit vai abrir automaticamente uma aba no navegador (normalmente em `http://localhost:8501`). Se não abrir sozinho, é só acessar esse endereço manualmente.
 
-## Estrutura do projeto
 
-```
-.
-├── app.py          # Interface principal (Streamlit)
-├── Grafo.py         # Classe GrafoCurso com a lógica de grafo
-├── requirements.txt # Dependências do projeto
-└── README.md
-```
-
-## Como usar
+## Uso
 
 1. No formulário "Cadastrar Matéria", preencha o código (ex: `FGA0313`), o nome (ex: `Requisitos de Software`) e a quantidade de créditos
 2. Clique em "Cadastrar"
 3. A matéria cadastrada aparece automaticamente na lista ao lado, em "Matérias Cadastradas"
+4. Após cadastrar duas ou mais disciplinas, é possível adicionar a relação de pré-requisitos entre duas disciplinas através da aba pré-requisitos.
+5. Após adicionar todas as disciplinas e pré-requisitos, aperte o botão de verificar ciclo, para identificar se sua estrutura curricular é válida.
+6. Na parte de Fluxograma, é possível selecionar, através da barra de créditos, qual o máximo de créditos semestrais e então clicar em gerar fluxograma visual.
+7. Na parte inferior do site, é possível exportar sua estrutura curricular para json, assim como importar um json válido.
+8. Nos arquivos do projeto, existe um exemplo de json para testar a importação, caso necessário.
+
+
+## Outros
+
+### Funcionalidades
+
+* Cadastro de matérias (código, nome e créditos)
+* Listagem das matérias já cadastradas na sessão atual
+* Cadastro de pré-requisitos entre matérias
+* Verificação de Ciclos
+* Geração de fluxograma personalizado em função de cŕeditos máximos por semestre
+* Importação e Exportação de estruturas curriculares em Json
+
+### Estrutura do projeto
+
+```
+.
+├── app.py          # Interface principal (Streamlit)
+├── grafo.py         # Classe GrafoCurso com a lógica de grafo
+├── requirements.txt # Dependências do projeto
+└── README.md
+```
