@@ -14,9 +14,9 @@ Este projeto consiste na criação de fluxogramas personalizados. O usuário pod
 
 **Vídeo da execução:**
 
-<video src="docs/video.mp4" controls="controls" width="100%"></video>
+<video src="https://youtu.be/LPNn2vYgIXs" controls="controls" width="100%"></video>
 
-*(Caso o player não carregue, [clique aqui para acessar o vídeo](docs/video.mp4))*
+[clique aqui para acessar o vídeo](https://youtu.be/LPNn2vYgIXs)
 
 ## Screenshots
 
