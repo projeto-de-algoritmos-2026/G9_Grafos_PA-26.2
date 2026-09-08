@@ -14,13 +14,33 @@ Este projeto consiste na criação de fluxogramas personalizados. O usuário pod
 
 **Vídeo da execução:**
 
--
+<video src="docs/video.mp4" controls="controls" width="100%"></video>
+
+*(Caso o player não carregue, [clique aqui para acessar o vídeo](docs/video.mp4))*
 
 ## Screenshots
 
--
--
--
+<p align="center">
+  <img src="docs/screenshot1.png" width="800" alt="Captura de tela da interface principal (jogo)">
+  <br>
+  <sub>Tela Principal - Superior</sub>
+</p>
+
+---
+
+<p align="center">
+  <img src="docs/screenshot2.png" width="800" alt="Captura de tela do card de regras que explica o jogo">
+  <br>
+  <sub>Tela Principal - Inferior</sub>
+</p>
+
+---
+
+<p align="center">
+  <img src="docs/screenshot3.png" width="800" alt="Captura de tela da movimentação e busca no tabuleiro">
+  <br>
+  <sub>Tela Principal, Fluxograma Gerado</sub>
+</p>
 
 ## Instalação
 
@@ -94,8 +114,13 @@ Depois disso, o Streamlit vai abrir automaticamente uma aba no navegador (normal
 
 ```
 .
-├── app.py          # Interface principal (Streamlit)
-├── grafo.py         # Classe GrafoCurso com a lógica de grafo
-├── requirements.txt # Dependências do projeto
+├── app.py                  # Interface principal (Streamlit)
+├── docs/                   # Pasta com imagens e vídeo da execução
+|   ├── screenshot1.png     # Imagem da tela inicial (Superior)
+|   ├── screenshot2.png     # Imagem da tela inicial (Inferior)
+|   ├── screenshot3.png     # Fluxograma Visual Gerado
+|   └── video.mp4           # Vídeo da execução do projeto
+├── grafo.py                # Classe GrafoCurso com a lógica de grafo
+├── requirements.txt        # Dependências do projeto
 └── README.md
 ```
